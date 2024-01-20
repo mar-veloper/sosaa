@@ -1,11 +1,13 @@
 import { Hono } from 'hono'
-import Prisma from '../prisma/client'
 import { logger } from 'hono/logger'
 import { cors } from 'hono/cors'
+import products from './products/products.route'
+import errorHandler from './middleware/errorHandler'
+import { prettyJSON } from 'hono/pretty-json'
 
 const app = new Hono()
 
-app.use('*', logger())
+app.use('*', logger(), prettyJSON())
 app.use('/api/*', cors())
 
 app.get('/', (c) => {
@@ -14,24 +16,10 @@ app.get('/', (c) => {
   })
 })
 
-app.get('/api/products', async (c) => {
-  try {
-    const products = await Prisma.product.findMany()
-    return new Response(JSON.stringify(products), {
-      status: 200,
-      headers: {
-        'content-type': 'application/json',
-      },
-    })
-  } catch (error) {
-    return new Response(JSON.stringify(error), {
-      status: 500,
-      headers: {
-        'content-type': 'application/json',
-      },
-    })
-  }
-})
+app.route('/api', products)
+
+app.notFound((ctx) => ctx.json({ message: 'Not Found' }, 404))
+app.onError(errorHandler)
 
 export default {
   port: 3030,
