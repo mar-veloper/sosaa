@@ -5,15 +5,12 @@ import { cors } from 'hono/cors'
 
 const app = new Hono()
 
-// match any method, all routes
 app.use('*', logger())
-
-// specify path
 app.use('/api/*', cors())
 
 app.get('/', (c) => {
   return c.json({
-    message: 'Hello World!',
+    message: 'Welcome to my SoSaa API!',
   })
 })
 
