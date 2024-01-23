@@ -35,7 +35,7 @@ products.get('/products/:id', async (ctx) => {
     },
   })
 
-  if (!product) {
+  if (product === null) {
     throw new HTTPException(404, { message: 'Product not found' })
   }
 
