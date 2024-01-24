@@ -1,10 +1,14 @@
 import { writable } from 'svelte/store';
-import type { Product } from '../../routes/products/product.types';
+import type { Product } from '../routes/products/product.types';
 import { v4 as uuidv4 } from 'uuid';
+import { getLocalStorage, setLocalStorage } from '../helpers/localStorage';
+import { onDestroy } from 'svelte';
+import { browser } from '$app/environment';
 
 interface Cart {
 	id: string;
-	userId: string;
+	sessionId: string;
+	userId?: string;
 	products: {
 		[key: string]: CartItem;
 	};
@@ -15,16 +19,17 @@ interface CartItem {
 	product: Product;
 }
 
-interface Props {
-	userId: string;
-}
-
-const createCart = ({ userId }: Props) => {
-	const { subscribe, update } = writable<Cart>({
+const createCart = () => {
+	const localCart = getLocalStorage('localCart');
+	const newCart = {
 		id: uuidv4(),
-		userId,
+		sessionId: uuidv4(),
 		products: {}
-	});
+	};
+
+	let cartProps = localCart ? localCart : newCart;
+
+	const { subscribe, update } = writable<Cart>(cartProps);
 
 	function addProduct(product: Product) {
 		return update((cart) => {
@@ -101,6 +106,10 @@ const createCart = ({ userId }: Props) => {
 		}));
 	}
 
+	subscribe((cart) => {
+		setLocalStorage('localCart', cart);
+	});
+
 	return {
 		subscribe,
 		addProduct,
@@ -109,4 +118,4 @@ const createCart = ({ userId }: Props) => {
 	};
 };
 
-export const cart = createCart;
+export const cart = createCart();
