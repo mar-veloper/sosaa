@@ -5,7 +5,8 @@ COPY package.json package.json
 RUN bun install
 
 COPY . .
-RUN bun run build
+RUN bun prisma migrate deploy
+RUN bun prisma generate
 
 EXPOSE 8001
 ENTRYPOINT [ "bun", "run", "src/index.ts" ]
