@@ -1,13 +1,11 @@
 import { writable } from 'svelte/store';
-import type { Product } from '../routes/products/product.types';
 import { v4 as uuidv4 } from 'uuid';
 import { getLocalStorage, setLocalStorage } from '../helpers/localStorage';
-import { onDestroy } from 'svelte';
-import { browser } from '$app/environment';
+import type { Product } from '../routes/products/product.types';
 
 interface Cart {
 	id: string;
-	sessionId: string;
+	sessionId?: string;
 	userId?: string;
 	products: {
 		[key: string]: CartItem;
@@ -46,7 +44,7 @@ const createCart = () => {
 					...cart,
 					products: {
 						...products,
-						[product.id]: updatedProduct
+						[product.id]: { ...updatedProduct }
 					}
 				};
 			}
@@ -59,8 +57,8 @@ const createCart = () => {
 			return {
 				...cart,
 				products: {
-					...products,
-					[product.id]: newProduct
+					[product.id]: { ...newProduct },
+					...products
 				}
 			};
 		});
@@ -108,6 +106,7 @@ const createCart = () => {
 
 	subscribe((cart) => {
 		setLocalStorage('localCart', cart);
+		3;
 	});
 
 	return {

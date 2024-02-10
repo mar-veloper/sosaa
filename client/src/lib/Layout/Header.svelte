@@ -1,3 +1,13 @@
+<script lang="ts">
+	import { cart } from '../../store/cart';
+
+	let totalProduct: number;
+	$: totalProduct = Object.keys($cart.products).reduce(
+		(acc, id) => acc + $cart.products[id].quantity,
+		0
+	);
+</script>
+
 <header class=" bg-secondary">
 	<div class="navbar max-w-screen-2xl mx-auto flex justify-between">
 		<div class="">
@@ -7,7 +17,7 @@
 		<nav class="flex justify-center">
 			<a href="/products" class="mr-5">Products</a>
 			<div class="dropdown dropdown-end">
-				<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+				<label for="my-drawer-4" class="btn btn-ghost btn-circle z-0">
 					<div class="indicator">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -22,9 +32,9 @@
 								d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
 							/></svg
 						>
-						<span class="badge badge-sm indicator-item">8</span>
+						<span class="badge badge-sm indicator-item">{totalProduct}</span>
 					</div>
-				</div>
+				</label>
 				<div class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-secondary shadow">
 					<div class="card-body">
 						<span class="font-bold text-lg">8 Items</span>

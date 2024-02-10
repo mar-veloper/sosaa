@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  sosaa_api:
+    build:
+      context: ./api
+    ports:
+      - '8001:5000'
+    depends_on:
+      - sosaa_db
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    restart: 'unless-stopped'
+    networks:
+      - nginx-proxy-manager_default
+
+  sosaa_frontend:
+    build:
+      context: ./client
+    ports:
+      - '3001:3000'
+    restart: 'unless-stopped'
+    networks:
+      - nginx-proxy-manager_default
+
+  sosaa_db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - '5432:5432'
+    networks:
+      - nginx-proxy-manager_default
+
+networks:
+  nginx-proxy-manager_default:
+    external: true

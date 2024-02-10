@@ -4,16 +4,12 @@
 
 	export let data: PageData;
 
-	let totalProduct: number;
 	let productsIds: string[];
 	$: productsIds = Object.keys($cart.products);
-	$: totalProduct = productsIds.reduce((acc, id) => acc + $cart.products[id].quantity, 0);
 </script>
 
 <section>
 	<h1 class="text-default font-bold text-3xl mt-10 mb-10">Products</h1>
-
-	<h2>{totalProduct}</h2>
 	{#if data.products}
 		<div class="flex justify-center flex-wrap gap-5">
 			{#each data.products as product, index}
