@@ -9,4 +9,4 @@ RUN bun run build
 
 
 EXPOSE 3001
-ENTRYPOINT ["bun", "preview"]
+ENTRYPOINT ["bun", "./build"]
