@@ -1,7 +1,11 @@
 <script lang="ts">
+	import { cart } from '../../store/cart';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	let productsIds: string[];
+	$: productsIds = Object.keys($cart.products);
 </script>
 
 <section>
@@ -18,7 +22,14 @@
 						<p>{product.description}</p>
 						<div class="divider"></div>
 						<div class="card-actions justify-end">
-							<button class="btn btn-primary">Add to cart</button>
+							{#if productsIds.includes(product.id)}
+								<button class="btn btn-primary" on:click={() => cart.removeProduct(product.id)}
+									>Remove</button
+								>
+							{/if}
+							<button class="btn btn-primary" on:click={() => cart.addProduct(product)}
+								>Add to cart</button
+							>
 						</div>
 					</div>
 				</div>
