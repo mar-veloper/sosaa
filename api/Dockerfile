@@ -8,4 +8,4 @@ COPY . .
 RUN bun run build
 
 EXPOSE 8001/tcp
-ENTRYPOINT [ "bun", "run", "index.ts" ]
+ENTRYPOINT [ "bun", "run", "src/index.ts" ]
