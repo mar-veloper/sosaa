@@ -14,7 +14,7 @@ services:
   frontend:
     build:
       context: ./client
-    container_name: sosaa-api
+    container_name: sosaa-frontend
     restart: 'unless-stopped'
 
   db:
