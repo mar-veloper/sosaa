@@ -26,6 +26,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
 
 networks:
-  sosaa-network:
   nginx-proxy-manager_default:
-    external: true
+    external:
+      name: nginx-proxy-manager_default
