@@ -8,4 +8,4 @@ COPY . .
 RUN bun run build
 
 EXPOSE 3001/tcp
-ENTRYPOINT ["bun", "./build"]
+ENTRYPOINT ["bun", "preview"]
