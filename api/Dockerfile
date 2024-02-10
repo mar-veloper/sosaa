@@ -7,5 +7,5 @@ RUN bun install
 COPY . .
 RUN bun run build
 
-EXPOSE 8001/tcp
+EXPOSE 8001
 ENTRYPOINT [ "bun", "run", "src/index.ts" ]
