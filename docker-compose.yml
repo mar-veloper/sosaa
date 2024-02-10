@@ -4,6 +4,7 @@ services:
   api:
     build:
       context: ./api
+    container_name: sosaa-api
     depends_on:
       - db
     environment:
@@ -13,16 +14,18 @@ services:
   frontend:
     build:
       context: ./client
+    container_name: sosaa-api
     restart: 'unless-stopped'
 
   db:
     image: postgres
+    container_name: sosaa-db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
 
 networks:
-  default:
+  sosaa-network:
+  nginx-proxy-manager_default:
     external: true
-    name: nginx-proxy-manager_default
