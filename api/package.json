@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "migrate": "bun prisma migrate dev",
-    "build": "bun prisma migrate deploy"
+    "build": "bun prisma migrate deploy && bun prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.8.1",
