@@ -4,6 +4,8 @@ services:
   api:
     build:
       context: ./api
+    ports:
+      - '8001:443'
     container_name: sosaa-api
     depends_on:
       - db
@@ -14,12 +16,16 @@ services:
   frontend:
     build:
       context: ./client
+    ports:
+      - '3001:443'
     container_name: sosaa-frontend
     restart: 'unless-stopped'
 
   db:
     image: postgres
     container_name: sosaa-db
+    ports:
+      - '5432:443'
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
